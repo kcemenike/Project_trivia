@@ -187,9 +187,21 @@ POST '/questions/search'
 }
 ```
 
-POST 'quizzes'
-
-
+POST '/quizzes'
+- Returns a list of questions in a category excluding thte previous question
+- Request Arguments: `{"quiz_category": {"id": int, "type": string}, "previous_questions": [list  of int]}`
+- Returns: A list of questions
+```
+{
+'success': True,
+'question': {
+        'id': 23,
+        'question': "Who is the first president of Italy",
+        'answer': "Berlusconi",
+        'category': 3,
+        'difficulty': 2
+    }
+}
 
 ## Testing
 To run the tests, run

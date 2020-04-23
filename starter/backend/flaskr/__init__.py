@@ -206,7 +206,7 @@ def create_app(test_config=None):
       return jsonify({
         'success': True,
         'question': question
-    })
+      })
     else:
       abort(422)
 
