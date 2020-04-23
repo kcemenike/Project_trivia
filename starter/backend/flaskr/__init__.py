@@ -192,9 +192,11 @@ def create_app(test_config=None):
     body = request.json
     if 'quiz_category' in body and 'previous_questions' in body:
       category = body['quiz_category']
+      print(category)
       previous = body['previous_questions']
+      print(previous)
       category_type = category['type']
-      # print(category_type)
+      print(category_type)
       # print(previous)
       questions = Question.query.filter_by(category=category['id']).filter(Question.id.notin_(previous)).all()
 
