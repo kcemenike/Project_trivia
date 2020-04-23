@@ -5,11 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 load_dotenv()
 
-database_user = os.getenv("database_user")
-database_password = os.getenv("database_password")
-database_name = "trivia"
+dbuser = os.getenv("database_user")
+pw = os.getenv("database_password")
+dbname = "trivia"
 
-database_path = f'postgresql+psycopg2://{database_user}:{database_password}@localhost:5432/{database_name}'
+database_path = f'''postgresql://{dbuser}:{pw}@localhost:5432/{dbname}'''
 db = SQLAlchemy()
 
 '''
