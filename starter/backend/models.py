@@ -77,6 +77,14 @@ class Category(db.Model):
   def __init__(self, type):
     self.type = type
 
+  def add(self):
+    db.session.add(self)
+    db.session.commit()
+
+  def delete(self):
+    db.session.delete(self)
+    db.session.commit()
+
   @property
   def format(self):
     return {

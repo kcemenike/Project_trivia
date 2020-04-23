@@ -67,6 +67,8 @@ def create_app(test_config=None):
   def questions():
     selection = Question.query.order_by(Question.id).all()
     questions = paginate_selection(request, selection)
+    if len(questions)== 0:
+      abort(404)
     return jsonify({
       'success': True,
       'questions': questions,
@@ -86,11 +88,9 @@ def create_app(test_config=None):
   '''
   @app.route('/questions/<question_id>', methods=['DELETE'])
   def delete_question(question_id):
-    question = Question.query.get(question_id)
-    print(question)
     try:
+      question = Question.query.get(question_id)
       question.delete()
-      # print("Success")
     except:
       abort(404)
     return jsonify({
@@ -163,7 +163,8 @@ def create_app(test_config=None):
   def category_questions(category_id):
     try:
       questions = Question.query.filter(Question.category == category_id).all()
-      print(questions)
+      if len(questions) == 0:
+        abort(404)
       results = paginate_selection(request, questions)
       return jsonify({
         'success': True,
@@ -200,10 +201,12 @@ def create_app(test_config=None):
       question = questions[random.randrange(0,len(questions))].format if len(questions)>0 else None
       # print(questions)
       # print(question)
-    return jsonify({
-      'success': True,
-      'question': question
+      return jsonify({
+        'success': True,
+        'question': question
     })
+    else:
+      abort(422)
 
 
   '''
