@@ -29,13 +29,13 @@ class TriviaTestCase(unittest.TestCase):
             self.db.create_all()
 
         self.new_question = Question(
-            question = "new question",
-            answer = "new answer",
-            category = 1,
-            difficulty = 1
+            question="new question",
+            answer="new answer",
+            category=1,
+            difficulty=1
         )
         self.new_category = Category("Test")
-        
+
         self.new_question.insert()
         self.new_category.add()
 
@@ -50,14 +50,14 @@ class TriviaTestCase(unittest.TestCase):
     Write at least one test for each test for successful operation and for expected errors.
     """
 
-
     def test_paginated_questions(self):
         res = self.client().get('/questions')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertLessEqual(data['total_questions'], 10) # test that pagination works
+        # test that pagination works
+        self.assertLessEqual(data['total_questions'], 10)
         self.assertTrue(len(data['questions']))
 
     def test_categories(self):
@@ -69,7 +69,8 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(len(data['categories']))
 
     def test_get_category_questions(self):
-        res = self.client().get(f'/categories/{self.new_question.category}/questions')
+        res = self.client().get(
+            f'/categories/{self.new_question.category}/questions')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -85,7 +86,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Sorry, resource unavailable")
-
 
     def test_unreachable_page_number(self):
         res = self.client().get('/questions?page=9999')
@@ -108,7 +108,7 @@ class TriviaTestCase(unittest.TestCase):
         question = Question("new question", "new answer", 1, 1)
         question.insert()
         question_id = question.id
-        
+
         # delete question and get response
         res = self.client().delete(f"questions/{question_id}")
         data = json.loads(res.data)
@@ -135,7 +135,7 @@ class TriviaTestCase(unittest.TestCase):
             'difficulty': 1
         }
         oldTotal = len(Question.query.all())
-        
+
         # Add question
         res = self.client().post('questions', json=new_question)
         data = json.loads(res.data)
@@ -154,7 +154,7 @@ class TriviaTestCase(unittest.TestCase):
             'category': 1
         }
         oldTotal = len(Question.query.all())
-        
+
         # Add question
         res = self.client().post('questions', json=new_question)
         data = json.loads(res.data)
@@ -181,7 +181,7 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_quiz(self):
         quiz = {'previous_questions': [],
-                          'quiz_category': {'type': 'Test', 'id': 1}}
+                'quiz_category': {'type': 'Test', 'id': 1}}
 
         res = self.client().post('/quizzes', json=quiz)
         data = json.loads(res.data)
@@ -198,6 +198,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 422)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Sorry, request cannot be processed")
+
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
