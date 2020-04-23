@@ -66,15 +66,14 @@ One note before you delve into your tasks: for each endpoint you are expected to
 8. Create a POST endpoint to get questions to play the quiz. This endpoint should take category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions. 
 9. Create error handlers for all expected errors including 400, 404, 422 and 500. 
 
-REVIEW_COMMENT
-```
-This README is missing documentation of your endpoints. Below is an example for your endpoint to get all categories. Please use it as a reference for creating your documentation and resubmit your code. 
-
 Endpoints
 GET '/categories'
-GET ...
-POST ...
-DELETE ...
+GET '/questions'
+GET 'categories/category_id/questions'
+POST '/questions'
+POST '/questions/search'
+DELETE '/questions/question_id'
+POST 'quizzes'
 
 GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
@@ -87,6 +86,64 @@ GET '/categories'
 '5' : "Entertainment",
 '6' : "Sports"}
 
+GET '/questions'
+- Fetches a dictionary of questions
+- Request Arguments: None
+- Returns: A json object of categories containin a dictionary of categories; the current category; questions in current page (total_questions), a sum total of all questions (total) and a list of questions with the answer, category, difficult and question as key:value pairs.
+```
+{
+  "categories": {
+    "1": "Science", 
+    "2": "Art", 
+    "3": "Geography", 
+    "4": "History", 
+    "5": "Entertainment", 
+    "6": "Sports"
+  }, 
+  "current_category": null, 
+  "questions": [
+    {
+      "answer": "Muhammadu Buhari", 
+      "category": "4", 
+      "difficulty": 4, 
+      "id": 1, 
+      "question": "Who was Nigeria's President in 2020"
+    }
+  ], 
+  "success": true, 
+  "total": 20, 
+  "total_questions": 10
+}
+```
+
+GET 'categories/category_id/questions'
+- Fetches a dictionary of questions from a category `category_id`
+- Request Arguments: category_id:`int`
+- Returns: A json object of categories containin a dictionary of categories; the current category; questions in current page (total_questions), a sum total of all questions (total) and a list of questions with the answer, category, difficult and question as key:value pairs.
+```
+{
+  "categories": {
+    "1": "Science", 
+    "2": "Art", 
+    "3": "Geography", 
+    "4": "History", 
+    "5": "Entertainment", 
+    "6": "Sports"
+  }, 
+  "current_category": null, 
+  "questions": [
+    {
+      "answer": "Muhammadu Buhari", 
+      "category": "4", 
+      "difficulty": 4, 
+      "id": 1, 
+      "question": "Who was Nigeria's President in 2020"
+    }
+  ], 
+  "success": true, 
+  "total": 20, 
+  "total_questions": 10
+}
 ```
 
 
