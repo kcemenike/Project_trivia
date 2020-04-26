@@ -79,7 +79,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': True,
             'questions': questions,
-            'total_questions': len(selection),
+            'total_questions': len(questions),
             'current_category': None,
             'categories':
             {category.id: category.type for category in Category.query.all()},
@@ -207,15 +207,11 @@ def create_app(test_config=None):
             previous = body['previous_questions']
             print(previous)
             category_type = category['type']
-            # print(category_type)
+            print(category_type)
             # print(previous)
-            if category_type == 'click':
-                questions = Question.query.filter(
-                    Question.id.notin_(previous)).all()
-            else:
-                questions = Question.query\
-                    .filter_by(category=category['id'])\
-                    .filter(Question.id.notin_(previous)).all()
+            questions = Question.query\
+                .filter_by(category=category['id'])\
+                .filter(Question.id.notin_(previous)).all()
 
             question = questions[random.randrange(0, len(questions))]\
                 .format if len(questions) > 0 else None
@@ -248,13 +244,5 @@ def create_app(test_config=None):
             'error': 422,
             'message': "Sorry, request cannot be processed"
         }), 422
-
-    @app.errorhandler(400)
-    def bad_request(error):
-        return jsonify({
-            'success': False,
-            'error': 400,
-            'message': 'Bad request'
-        }), 400
 
     return app
